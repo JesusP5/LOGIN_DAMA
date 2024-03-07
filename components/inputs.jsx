@@ -1,39 +1,25 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import React from 'react';
+import { TextInput, StyleSheet, Alert } from 'react-native';
 
-const UserInput = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+const CustomInput = ({ placeholder, onChangeText, maxLength }) => {
+    const handleChangeText = (text) => {
+        if (text.length <= maxLength) {
+            onChangeText(text);
+        } else {
+            Alert(`La entrada es demasiado corta. Debe tener ${maxLength} caracteres al menos.`);
+        }
+    };
 
-    return (
-        <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                onChangeText={setUsername}
-                value={username}
-                placeholder="Usuario"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={setPassword}
-                value={password}
-                placeholder="Contraseña"
-                secureTextEntry
-            />
-        </View>
-    );
+    return <TextInput style={styles.input} placeholder={placeholder} onChangeText={handleChangeText} />;
 };
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
     input: {
         height: 40,
-        margin: 12,
+        margin: 20,
         borderWidth: 1,
+        borderRadius: 5,
+        backgroundColor: '#c2e4cb',
     },
 });
 
-export default UserInput;
+export default CustomInput;
